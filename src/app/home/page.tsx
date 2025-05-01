@@ -1,12 +1,13 @@
 import ProductCard from '@/components/product'
 import React from 'react'
+import Banner from './components/banner'
 
 const HomePage = () => {
   return (
-    <div>HomePage
-            <ProductCard imagepath={""} title="" price="" description="" category="" product_id="" />
+    <div>
+      <Banner imgSrc={''} />
     </div>
-    
+
   )
 }
 
