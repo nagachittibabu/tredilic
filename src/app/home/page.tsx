@@ -16,7 +16,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const products = await fetch(`http://localhost:3000/api/categories?name=${subCat}`);
+        const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/categories?name=${subCat}`);
         const items = await products.json();
         setval(items.products);
       } catch (error: any) {
