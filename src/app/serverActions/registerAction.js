@@ -1,7 +1,7 @@
 
 "use server"
 
-import UserModel from "../../utils/models/User"
+import UserModel from "../../utils/models/user"
 import DBConnect from "../../utils/config/db"
 const RegisterAction=async(registerData)=>{
     await DBConnect()

@@ -1,7 +1,7 @@
   'use server';
 
   import DBConnect from '../../utils/config/db';
-  import BookingModel from '../../utils/models/Booking';
+  import BookingModel from '../../utils/models/booking';
 
   const BookingAction = async (bookingData) => {
     await DBConnect();
