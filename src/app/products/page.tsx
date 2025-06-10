@@ -24,7 +24,7 @@ const Productspage = () => {
     const fetchdata = async () => {
         if (!categoryName?.length) {
             try {
-                const products = await fetch(`http://localhost:3000/api/products`);
+                const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/products`);
                 const data = await products.json();
                 if (data?.totalProducts) {
                     let res = data.totalProducts.flat(Infinity);
@@ -41,7 +41,7 @@ const Productspage = () => {
         }
         if (categoryName) {
             try {
-                const products = await fetch(`http://localhost:3000/api/products/category?name=${categoryName}`);
+                const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/products/category?name=${categoryName}`);
                 const data = await products.json();
                 if (data?.fetchedProducts) {
                     setAllProducts(data.fetchedProducts.map((ele:any) => ele.products).flat())
@@ -53,7 +53,7 @@ const Productspage = () => {
         }
         if (categoryName && subCategoryName) {
             try {
-                const products = await fetch(`http://localhost:3000/api/products/category?name=${categoryName}&subCategory=${subCategoryName}`);
+                const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/products/category?name=${categoryName}&subCategory=${subCategoryName}`);
                 const data = await products.json();
                 if (data?.fetchedProducts) {
                     setAllProducts(data.fetchedProducts.map((ele:any) => ele).flat())
@@ -75,7 +75,7 @@ const Productspage = () => {
         setSelectedCategory(e.target.value)
         router.push(`/products?categoryName=${e.target.value}`)
         try {
-            const categories = await fetch(`http://localhost:3000/api/products/category?name=${e.target.value}`)
+            const categories = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/products/category?name=${e.target.value}`)
             const categoryBasedFilter = await categories.json();
             setSubcategoryFilter(categoryBasedFilter.fetchedProducts.map((e: any) => e.category_name));
         }

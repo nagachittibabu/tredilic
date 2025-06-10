@@ -12,13 +12,13 @@ export default function Header() {
 
     const CategoryHover = async (e:any) => {
         setSelectedCategory(e.target.value)
-        const products = await fetch(`http://localhost:3000/api/categories/category?name=${e.target.value}&categorytype=`);
+        const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/categories/category?name=${e.target.value}&categorytype=`);
         const data = await products.json();
         setcategories(data.fetchedProducts);
     };
     useEffect(()=>{
         const categoryfetch=async()=>{
-            const categoriesget=await fetch("http://localhost:3000/api/categories");
+            const categoriesget=await fetch("https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/categories");
             const data=await categoriesget.json();
             setmainCategory(data.categories);
         }

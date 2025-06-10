@@ -26,7 +26,7 @@ const Productspage = () => {
     
     const fetchdata = async () => {
         try {
-            const products = await fetch(`http://localhost:3000/api/products`);
+            const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/products`);
             const data = await products.json();
             if (data?.totalProducts) {
                 let res = data.totalProducts.flat(Infinity);
@@ -63,7 +63,7 @@ const Productspage = () => {
     const CategoryFilter = async(e) => {
         setSelectedCategory(e.target.value);
         try {
-            const products = await fetch(`http://localhost:3000/api/products/category?name=${e.target.value}`);
+            const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/products/category?name=${e.target.value}`);
             const data = await products.json();
             setFilterProducts(data.fetchedProducts);
             if (data.fetchedProducts.length > 0) {

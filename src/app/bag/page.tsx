@@ -11,7 +11,7 @@ const Bag = () => {
   
   const RemoveItem=async(e)=>{
     try {
-      const bookingsFetch=await fetch(`http://localhost:3000/api/bookings?productId=${e}` ,{method:"DELETE"});
+      const bookingsFetch=await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/bookings?productId=${e}` ,{method:"DELETE"});
       const bookingDetails=await bookingsFetch.json();
       if(bookingDetails){
         window.location.reload();
@@ -22,7 +22,7 @@ const Bag = () => {
   }
   const bookingsFetch=async()=>{
     try {
-    const bookingsFetch=await fetch("http://localhost:3000/api/bookings" ,{method:"GET"});
+    const bookingsFetch=await fetch("https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/bookings" ,{method:"GET"});
     const bookingDetails=await bookingsFetch.json();
     setData(bookingDetails.bookings)
   } catch (error) {

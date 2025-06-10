@@ -15,7 +15,7 @@ const HomePage = () => {
   const router = useRouter();
   const SubCategoryClick = async (element: String) => {
     try {
-      const products = await fetch(`http://localhost:3000/api/categories/category?name=${subCategoryClick}&categorytype=${element}`);
+      const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/categories/category?name=${subCategoryClick}&categorytype=${element}`);
       const data = await products.json();
       router.push(`/products?categoryName=${subCategoryClick}&subCategory=${element}`);
     }
@@ -27,7 +27,7 @@ const HomePage = () => {
     setCategoryClick(true)
     setSubCategoryClick(subCategory);
     try {
-      const products = await fetch(`http://localhost:3000/api/categories/category?name=${subCategory}&categorytype=`);
+      const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/categories/category?name=${subCategory}&categorytype=`);
       const data = await products.json();
       setsubCategories(data.fetchedProducts);
       console.log(data);
@@ -40,8 +40,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/categories?name=${subCat}`);
-        const products = await fetch(`http://localhost:3000/api/categories`)
+        const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/categories`)
         const items = await products.json();
         setval(items.categories);
       } catch (error: any) {
