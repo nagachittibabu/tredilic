@@ -1,62 +1,101 @@
-"use client"
+"use client";
 
+import { useEffect, useState } from "react";
 import Link from "../../node_modules/next/link";
+import { useRouter } from "../../node_modules/next/navigation";
 
 export default function Header() {
+    const router =useRouter();
+    const [mainCategory,setmainCategory]=useState([]);
+    const [selectedCategory,setSelectedCategory]=useState(null)
+    const [categories, setcategories] = useState([]);
+
+    const CategoryHover = async (e:any) => {
+        setSelectedCategory(e.target.value)
+        const products = await fetch(`http://localhost:3000/api/categories/category?name=${e.target.value}&categorytype=`);
+        const data = await products.json();
+        setcategories(data.fetchedProducts);
+    };
+    useEffect(()=>{
+        const categoryfetch=async()=>{
+            const categoriesget=await fetch("http://localhost:3000/api/categories");
+            const data=await categoriesget.json();
+            setmainCategory(data.categories);
+        }
+        categoryfetch()
+    },[])
+    const ProductClick=(ele:string)=>{
+        router.push(`/products/category?name=${selectedCategory}&categorytype=${ele}`);
+    }
+    
     return (
-        <div className="w-full bg-white border-b sticky top-0 right-0 z-50   widthfull ">
-            <div className="w-full flex   lg:justify-between lg:items-center md:justify-between md:items-center sm:justify-between sm:items-center  lg:px-12 md:px-12 sm:px-16  between ">
-                <div className="flex items-center  pt-2">
+        <div className="w-full lg:h-16 md:h-14 sm:h-12 bg-white border-b sticky top-0 right-0 z-50 text-black flex justify-center height45" onMouseLeave={()=>setcategories([])} >
+            <div className="w-full flex lg:justify-between lg:items-center md:justify-between md:items-center sm:justify-between sm:items-center lg:px-12 md:px-6 sm:px-8 headercss">
+                <div className="flex items-center">
                     <Link href="/">
-                        <h1 className="lg:text-2xl md:text-3xl sm:text-xl lg:font-bold md:font-semibold sm:font-semibold ">
-                            <span className="text-red-300 font-bold border border-grey-300 px-4 py-2 lg:text-3xl md:text-3xl sm:text-x">Tredilic</span>
+                        <h1 className="font-bold lg:text-3xl md:text-2xl sm:text-xl lg:font-bold md:font-bold sm:font-bold text-blue-500">
+                                Tredilic
                         </h1>
                     </Link>
-                    <ul className="flex space-x-8  items-center justify-center ">
+                </div>
+                <div>
+                    <ul className="lg:text-[15px] md:text-[14px] sm:text-[10px] flex lg:space-x-12 md:space-x-5 items-center justify-center relative display-none font-medium">
                         <li>
-                            <Link href="/" className="hover:text-red-300 focus:text-red-300">Men's</Link>
+                            <button className="hover:text-blue-300 " onMouseOver={CategoryHover} value="men's dresses">
+                                Men
+                            </button>
                         </li>
                         <li>
-                            <Link href="/Components/Shop" className="hover:text-red-300">Women's</Link>
+                            <button className="hover:text-blue-300 " onMouseOver={CategoryHover} value="Women's Dresses">
+                                Women
+                            </button>
                         </li>
                         <li>
-                            <Link href="/Cart" className="hover:text-red-300 "> Kid's</Link>
+                            <button className="hover:text-blue-300" onMouseOver={CategoryHover} value="Kids' Dresses">
+                                Kids
+                            </button>
                         </li>
                         <li>
-                            <Link href="/Cart" className="hover:text-red-300 ">Accessories</Link>
+                            <button className="hover:text-blue-300" onMouseOver={CategoryHover} value="Accessories">
+                                Accessories
+                            </button>
                         </li>
                     </ul>
-                </div>
-                <div className="flex items-center lg:w-5/12 md:w-1/3 sm:w-1/2 border relative">
-                    <input
-                        type="text"
-                        className="pl-1 pr-4 py-2 w-full"
-                        placeholder="Search for products"
-                    />
-                    <i className="fa-solid fa-magnifying-glass py-3 px-3 text-red-300"></i>
-                </div>
-                <div className="flex items-center lg:order-2">
-                <div className="w-1/4">
-                    <ul className="flex space-x-6">
-                        <li>
-                            <Link href="/Login" className="hover:text-red-300">Login</Link>
-                        </li>
-                        <li>
-                            <Link href="/Register" className="hover:text-red-300">Register</Link>
-                        </li>
-                    </ul>
-                </div>
-                    <div className="lg:text-2xl lg:semibold hide"></div>
-                    <Link href="/Components/Wishlist">
-                        <div className="border border-grey-300 m-2 lg:block hide">
-                            <i className="fa-solid fa-heart text-red-300 p-3"></i><span className="pr-2">0</span>
+                    {categories.length > 0 && (
+                        <div className="absolute top-35 left-100 bg-white border rounded shadow-md mt-2 w-[25%]" onMouseLeave={()=>setcategories([])}>
+                            <ul className="py-2">
+                                {categories.map((subcategory, index) => (
+                                    <li key={index} className="px-4 py-2 hover:bg-blue-100 cursor-pointer " onClick={()=>ProductClick(subcategory)}>
+                                        {subcategory}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                    </Link>
-                    <Link href="/Cart">
-                        <div className="border border-grey-300 m-2 lg:block ">
-                            <i className="fa-solid fa-cart-shopping text-red-300 p-3"></i><span className="pr-2"></span>
-                        </div>
-                    </Link>
+                    )}
+                </div>
+                <div className="flex items-center lg:w-1/3 md:w-1/3 sm:w-[60%] h-[30px] rounded-lg shadow-md width75">
+                    <input type="text" className=" w-full border h-full" placeholder="Search...." />
+                </div>
+                <div className="flex items-center">
+                    <div className="w-1/4 lg:text-[14px] md:text-[14px] sm:text-[12px]">
+                        <ul className="flex  lg:space-x-12 md:space-x-5 sm:space-x-6 font-medium">
+                            <li>
+                                <Link href="/Login" className="hover:text-blue-300 hidecontent">
+                                    Login
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/Register" className="hover:text-blue-300 hidecontent">
+                                    Register
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/bag" className="hover:text-blue-300">
+                                    Bag
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,3 +1,122 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media  (width<640px){
+  .halfwidth{
+    width: 50%;
+  }
+  .fullwidth{
+    width: 100%;
+  }
+  .headercss{     
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .footercss{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .justifybetween{
+    display: flex;
+    gap: 100px;
+  }
+  .hidecontent{
+    display: none;
+  }
+  .showcontent{
+    display: block;
+  }
+  .buttonmodify{
+    width: 40%;
+    font-size: 13;
+    height: 30px;
+  }
+  .width75{
+    width: 75%;
+  }
+  .width20{
+    width: 20%;
+  }
+  .width25{
+    width: 25%;
+  }
+  .width85{
+    width: 85%;
+  }
+  .width40{
+    width: 40%;
+  }
+  .width50{
+    width: 50%;
+  }
+  .categoryCardCss{
+    height: 280px;
+    width: 140px;
+    padding: 0 10px 10px 10px;
+  }
+  .padding-x{
+    padding: 0 10px 0 10px;
+  }
+  .categoryContainerCss{
+    height: 300px;
+  }
+  .gap0{
+   row-gap: 0;  
+   }
+  .text10px{
+    font-size: 10px;
+  }
+  .text12px{
+    font-size: 12px;
+  }
+  .text14px{
+    font-size: 14px;
+  }
+  .text19px{
+    font-size: 19px;
+  }
+  .text22px{
+    font-size: 22px;
+  }
+  .height45{
+    height: 45px;
+  }
+  .fullheight{
+    height: 75%;
+  }
+}
+.subCatScroll::-webkit-scrollbar{
+  width: 0;
+}
+
+@media (width<768px) {
+  .display-none{
+    display: none;
+  }
+  .display-show{
+    display: block;
+  }
+  .display-flex-col{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .display-flex-row{
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+
+@media (width>768px) {
+.none{
+  display: none
+}
+}
+.borderRadius5{
+  border-radius: 5%;
+}

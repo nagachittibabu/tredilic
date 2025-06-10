@@ -1,24 +1,19 @@
 import { NextResponse } from "next/server";
-import ItemsModel from "@/utils/models/items";
 import DBConnect from "@/utils/config/db";
-import { Products } from "@/interfaces/products";
+import MainCategoryModel from "../../../utils/models/data";
 
 export async function GET(req) {
     await DBConnect();
-   const url = new URL(req.url)
-   const name=url.searchParams.get('name')
     try {
-        const mainCategory = await ItemsModel.findOne({ "products.category_name": name });
-
-        const fetchedProducts = []
-        mainCategory.get("products").forEach(element => {
-            if (element.category_name === name) fetchedProducts.push(element);
-        })
-
-        return NextResponse.json({ success: true, fetchedProducts }, { status: 200 });
-
+        const categories = await MainCategoryModel.find().lean();
+        const formattedCategories = categories.map(mainCategory =>({
+            categoryName :mainCategory.category_name,
+            imageurl:mainCategory.imageurl
+        }));    
+        console.log(formattedCategories);
+        return NextResponse.json({ success: true, categories: formattedCategories }, { status: 200 });
     } catch (error) {
-        console.error("Error fetching subcategory products:", error);
-        return NextResponse.json({ success: false, message: "Failed to get subcategory products" }, { status: 500 });
+        console.error("Error fetching categories:", error);
+        return NextResponse.json({ success: false, message: "Failed to get Categories" }, { status: 500 });
     }
 }

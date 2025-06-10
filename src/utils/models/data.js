@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const ProductSchema = new mongoose.Schema({
+  productId:String,
   title: String,
   description: String,
   price: Number,
@@ -14,6 +15,7 @@ const SubCategorySchema = new mongoose.Schema({
 
 const MainCategorySchema = new mongoose.Schema({
   category_name: String,
+  imageurl:String,
   products:[SubCategorySchema],
 });
 
