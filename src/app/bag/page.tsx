@@ -9,7 +9,7 @@ const Bag = () => {
   const [productCount, setProductCount] = useState(1);
   const [itemcount, setItemcount] = useState(0);
   
-  const RemoveItem=async(e)=>{
+  const RemoveItem=async(e:string)=>{
     try {
       const bookingsFetch=await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/bookings?productId=${e}` ,{method:"DELETE"});
       const bookingDetails=await bookingsFetch.json();
