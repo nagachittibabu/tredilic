@@ -7,7 +7,6 @@ export async function GET(req) {
     const url = new URL(req.url)
     const name = url.searchParams.get('name');
     const categorytype = url.searchParams.get('categorytype');
-    console.log(categorytype, name);
     if (!name) {
         return NextResponse.json({ success: false }, { message: "subcategory name is undefined" }, { status: 500 })
     }   
@@ -37,7 +36,6 @@ export async function GET(req) {
             
             const fetchedProducts = mainCategory.products.map(element => element.category_name);
     
-            console.log("fetched productss", fetchedProducts);
             return NextResponse.json({ success: true, fetchedProducts }, { status: 200 });
     
         } catch (error) {

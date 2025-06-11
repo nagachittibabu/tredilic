@@ -30,7 +30,6 @@ const HomePage = () => {
       const products = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/categories/category?name=${subCategory}&categorytype=`);
       const data = await products.json();
       setsubCategories(data.fetchedProducts);
-      console.log(data);
     }
     catch (error) {
       console.error("Error fetching subcategories:");

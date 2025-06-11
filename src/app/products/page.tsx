@@ -68,7 +68,6 @@ const Productspage = () => {
         fetchdata();
     }, [searchParams]);
 
-    console.log(allProducts);
 
 
     const CategoryFilter = async (e:React.ChangeEvent<HTMLInputElement>) => {

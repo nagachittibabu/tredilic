@@ -14,7 +14,6 @@ const LoginForm = () => {
 
     const handleSubmit = async () => {
         let logindata = { email, password }
-        console.log(logindata);
 
         try {
             const response = await LoginAction(logindata)

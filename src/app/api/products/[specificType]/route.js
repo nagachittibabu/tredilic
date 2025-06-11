@@ -8,7 +8,6 @@ export async function GET(req) {
     const categoryName = url.searchParams.get('name');
     const categoryType = url.searchParams.get('subCategory');
     const productId = url.searchParams.get('productId');
-    console.log(categoryName, categoryType, productId);
     if (!categoryName) {
         return NextResponse.json({ success: false, message: "category is not valid" }, { status: 500 })
     }

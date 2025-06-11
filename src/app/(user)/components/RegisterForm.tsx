@@ -25,9 +25,7 @@ const RegisterForm = () => {
             router.push("/Login")
           }
         } catch (error) {
-            console.log(error);
-            
-        }
+            console.log(error)             }
     }
     else{
         alert("Enter all mandatory fields")

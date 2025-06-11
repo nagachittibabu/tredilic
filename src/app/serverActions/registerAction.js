@@ -5,7 +5,6 @@ import UserModel from "../../utils/models/user"
 import DBConnect from "../../utils/config/db"
 const RegisterAction=async(registerData)=>{
     await DBConnect()
-    console.log("this is in in registerAction page",registerData);
     try {
         await UserModel.create({
             name:registerData.name,

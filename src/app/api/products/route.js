@@ -13,6 +13,7 @@ export async function GET(req){
         return NextResponse.json({success:true,totalProducts});
     } catch (error) {
         console.error("unable to get the products",error);
+        return NextResponse.json({success:false,message:"Unable to get the products "});
     }
 }
 

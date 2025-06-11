@@ -13,7 +13,6 @@ export async function POST(req){
             }
         });
         await newImage.save();
-        console.log("Image saved successfully!");
         return NextResponse.json({ success: true, categories: newImage }, { status: 200 });
 
     } catch (error) {
