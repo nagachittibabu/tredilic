@@ -5,10 +5,10 @@ import Link from "../../../../node_modules/next/link";
 import { useRouter } from "../../../../node_modules/next/navigation";
 import registerAction from "../../serverActions/registerAction"
 const RegisterForm = () => {
-    const [name, setName] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [mobile, setMobile] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [mobile, setMobile] = useState("");
+    const [password, setPassword] = useState("");
     const [passType,setPassType] =useState('password')
     const router=useRouter()
     const handleSubmit=async()=>{ 
@@ -33,7 +33,7 @@ const RegisterForm = () => {
         alert("Enter all mandatory fields")
     }
     }
-    const showPass=(e)=>{
+    const showPass=(e:any)=>{
         e.preventDefault();
         if(passType =='password') {
             setPassType("text")
