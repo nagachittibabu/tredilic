@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import  toast  from "react-hot-toast";
+
 import { useRouter } from '../../../../node_modules/next/navigation';
 import BookingAction from "../../serverActions/bookingAction"
 interface ProductDetailProps {
@@ -22,7 +24,7 @@ const ProductDetail = ({ handleShowDetails, productId }: ProductDetailProps) => 
   const [cartText, setCartText] = useState("ADD TO CART")
 
   const ProductHandler = async () => {
-    const product = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/products/category?name=""&productId=${productId}`);
+    const product = await fetch(`http://localhost:3000/api/products/category?name=""&productId=${productId}`);
     const productData = await product.json();
     setSelectedProduct(productData.filterProduct);
   }
@@ -37,29 +39,29 @@ const ProductDetail = ({ handleShowDetails, productId }: ProductDetailProps) => 
     setSelectedQuantity(e.target.value)
   }
   const CartHandler = async () => {
-    if (!selectedQuantity && !selectedSize) {
-      alert("Plese enter size and Quantity");
+    if (cartText === "GO TO CART") {
+      router.push("/bag");
+      return;
     }
-    else {
-      if (cartText == "ADD TO CART") {
+  
+    if (!selectedQuantity || !selectedSize) {
+      toast("Please select Size and Quantity");
+      return;
+    }
+    if(selectedQuantity && selectedSize && selectedProduct){
+    const updatedProduct = [...selectedProduct];
+    if (updatedProduct.length > 0) {
+      updatedProduct[updatedProduct.length - 1].selectedQuantity = selectedQuantity;
+      updatedProduct[updatedProduct.length - 1].selectedSize = selectedSize;
+        setSelectedProduct(updatedProduct);
+        const response = await BookingAction(updatedProduct);
+      if (response?.success) {
+        toast.success("Item Added to Cart");
         setCartText("GO TO CART");
-        setSelectedProduct(prev => {
-          if (prev.length > 0) {
-            prev[prev.length - 1].selectedQuantity = selectedQuantity;
-            prev[prev.length - 1].selectedSize = selectedSize;
-            return [...prev];
-          }
-          return prev;
-        });
-        const response = await BookingAction(selectedProduct);
-        alert("Product Added to the Bag");
-      }
-      if (cartText == "GO TO CART") {
-        router.push("/bag")
       }
     }
   }
-
+  };
   return (
     <div className='w-full h-screen absolute lg:top-10 md:top-8 sm:top-2 left-0 backdrop-filter backdrop-brightness-50 backdrop-blur-md flex items-center justify-center overflow-y-scroll overscroll-contain'>
       {selectedProduct.length > 0 && (
@@ -117,8 +119,11 @@ const ProductDetail = ({ handleShowDetails, productId }: ProductDetailProps) => 
 
             <div className="w-full flex justify-between mt-6 lg:text-[16px] md:text-[16px] sm:text-[12px]">
               <button
-                className="w-[48%] p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-                onClick={CartHandler} >
+                className={`w-[48%] p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition ${
+                  !selectedSize || !selectedQuantity ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={CartHandler} disabled={!selectedSize || !selectedQuantity}
+                >
                 {cartText}
               </button>
               <button

@@ -4,6 +4,7 @@
   import BookingModel from '../../utils/models/booking';
 
   const BookingAction = async (bookingData) => {
+    console.log(bookingData);
     await DBConnect();
     try {
       const userBookingDetails = await BookingModel.create({
@@ -15,10 +16,10 @@
         quantity:bookingData[0].selectedQuantity,
         size: bookingData[0].selectedSize,
       });
-        return {success:true};
+        return {success:true ,status:200}
     } catch (error) {
-      
-      console.log(error);  }
+      console.log(error);  
+    }
   };
 
   export default BookingAction;

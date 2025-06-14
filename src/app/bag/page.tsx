@@ -1,20 +1,34 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 
+interface Product {
+  productId: string;
+  description:string;
+  title: string;
+  price: number;
+  color: string;
+  size: string;
+  image: string;
+  quantity: number;
+}
+
+
 const Bag = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Product[]>([]);
+  const [productId,setProductId]=useState("");
   const [price, setPrice] = useState(0);
   const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState(0);
-  const [productCount, setProductCount] = useState(1);
+  const [size, setSize] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [itemcount, setItemcount] = useState(0);
   
-  const RemoveItem=async(e:string)=>{
+  const RemoveItem=async(productId:string)=>{
     try {
-      const bookingsFetch=await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/bookings?productId=${e}` ,{method:"DELETE"});
+      const bookingsFetch=await fetch(`http://localhost:3000/api/bookings?productId=${productId}` ,{method:"DELETE"});
       const bookingDetails=await bookingsFetch.json();
       if(bookingDetails){
-        window.location.reload();
+        setData((prev)=>prev.filter((item)=>item.productId !== productId))
       }
     } catch (error) {
       console.error("unable to fetch the products");
@@ -22,19 +36,33 @@ const Bag = () => {
   }
   const bookingsFetch=async()=>{
     try {
-    const bookingsFetch=await fetch("https://tredilic-gooturu-naga-chittibabus-projects.vercel.app/api/bookings" ,{method:"GET"});
+    const bookingsFetch=await fetch("http://localhost:3000/api/bookings" ,{method:"GET"});
     const bookingDetails=await bookingsFetch.json();
     setData(bookingDetails.bookings)
+    setQuantity(bookingDetails.bookings.length)
   } catch (error) {
     console.error("unable to fetch the products");
   }
   }
-   
-  
+  const updateBooking=async()=>{
+    const updateData=[{productId,quantity,size}]
+    try {
+    const updateBookingItems =await fetch("http://localhost:3000/api/bookings" ,{method:"PATCH",body:JSON.stringify(updateData)});
+    const productsAfterFetch=await updateBookingItems.json();
+    console.log(productsAfterFetch);
+    } catch (error) {
+      console.error("eroor in updateBooking");
+    }
+  }
+
+  useEffect(()=>{
+    updateBooking();  
+  },[size,quantity])
+
   useEffect(()=>{
     bookingsFetch();
   },[]);
-
+ 
   return (
     <>
       <div className='w-full min-h-screen flex flex-col px-4 py-8 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300'>
@@ -43,34 +71,46 @@ const Bag = () => {
             <h2 className='text-2xl font-bold mb-6 text-gray-800'>Shopping Bag</h2>
             {data?.map((ele: any, index: number) => {
               return (
-                // element?.map((ele: any) => (
-                  <div className='flex items-center justify-between w-full h-auto mb-6 border p-6 rounded-lg shadow-sm' key={ele.id}>
+                  <div className='flex items-center justify-between w-full h-auto mb-6 border p-6 rounded-lg shadow-sm' key={ele.id} onClick={()=>setProductId(ele.productId)}>
                     <div className='w-1/2 flex flex-col gap-4'>
-                      <img src={ele.image} alt="" className='w-full h-[200px] rounded-lg shadow-md' />
+                      <img src={ele.image} alt="" className='w-3/4 h-[150px] rounded-lg shadow-md' />
                       <div className='flex justify-center items-center gap-2'>
-                        <button className="bg-red-400 text-white px-3 py-1 rounded-md hover:bg-red-500" >
-                          <i className="fa fa-minus"></i>
-                        </button>
-                        <input type="text" value={ele.quantity} readOnly className="w-12 h-9 text-center bg-gray-200 rounded-md focus:outline-none" />
-                        <button className="bg-green-400 text-white px-3 py-1 rounded-md hover:bg-green-500" >
-                          <i className="fa fa-plus"></i>
-                        </button>
                       </div>
                     </div>
                     <div className='flex lg:flex-row justify-between w-full items-center lg:ml-6 gap-4'>
                       <div className='w-full'>
                         <h1 className='text-xl font-semibold mb-2 text-gray-900'>{ele.title}</h1>
-                        <p className='text-lg font-semibold text-gray-700'>${ele.price}</p>
-                        <p className='text-md text-gray-600'>{ele.color}, {ele.size}</p>
+                        <p className='text-md text-gray-600' >{ele.price}/-</p>
+                        <div className='flex space-x-2'>
+                        <div className=' flex justiyf-between space-x-2 text-[14px] border w-[80px]'>
+                        <label htmlFor="">size</label>
+                        <select onChange={(e)=>setSize(e.target.value)}>
+                          <option>{ele.size}</option>
+                          <option>S</option>
+                          <option>M</option>
+                          <option>L</option>
+                          <option>XL</option>
+                          </select>
+                          </div>
+                          <div className=' flex justiyf-between space-x-2 text-[14px] border w-[80px]'>
+                        <label htmlFor="">Quantity</label>
+                        <select className='border ' onChange={(e)=>setQuantity(e.target.value)}>
+                          <option>{ele.quantity}</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          </select>
+                          </div>
+                          </div>
                       </div>
                       <div>
                         <button className='text-red-600 hover:text-red-800' onClick={()=>RemoveItem(ele.productId)}>
-                          Remove Item
+                        &#10006;
                         </button>
                       </div>
                     </div>
                   </div>
-                // ))
               );
             })}
           </div>
@@ -83,7 +123,7 @@ const Bag = () => {
               </div>
               <div className='flex justify-between text-lg'>
                 <span>Quantity</span>
-                <span>{productCount}</span>
+                <span>{quantity}</span>
               </div>
               <div className='flex justify-between text-lg border-b pb-4'>
                 <span>Discount</span>

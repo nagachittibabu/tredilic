@@ -32,3 +32,34 @@ export async function DELETE(req){
         console.error("unable to remove the item");
     }
 }
+
+
+export async function PATCH(req){
+    const body=await req.json();
+    const {productId,quantity,size}=body[0]
+
+    if(!productId){
+        return NextResponse.json({success:false ,message:"productId is missing"},{status:500})
+    }
+    await DBConnect();
+    try {
+        const updateFields = {};
+      if (quantity) updateFields.quantity = quantity;
+      if (size) updateFields.size = size;
+
+        const updatedBooking = await BookingModel.findOneAndUpdate(
+        { productId },
+        { $set: updateFields },
+        { new: true }
+      );
+        
+      if (!updatedBooking) {
+        return NextResponse.json({ success: false, message: "Item not found" }, { status: 404 });
+      }
+      return NextResponse.json({ success: true, updatedBooking, message: "Booking updated successfully" });
+
+    } catch (error) {
+        console.error("unable to update the item");
+        return NextResponse.json({success:false},{status:404})
+    }
+}
