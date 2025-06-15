@@ -25,7 +25,7 @@ const Bag = () => {
   
   const RemoveItem=async(productId:string)=>{
     try {
-      const bookingsFetch=await fetch(`http://localhost:3000/api/bookings?productId=${productId}` ,{method:"DELETE"});
+      const bookingsFetch=await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app//api/bookings?productId=${productId}` ,{method:"DELETE"});
       const bookingDetails=await bookingsFetch.json();
       if(bookingDetails){
         setData((prev)=>prev.filter((item)=>item.productId !== productId))
@@ -36,7 +36,7 @@ const Bag = () => {
   }
   const bookingsFetch=async()=>{
     try {
-    const bookingsFetch=await fetch("http://localhost:3000/api/bookings" ,{method:"GET"});
+    const bookingsFetch=await fetch("https://tredilic-gooturu-naga-chittibabus-projects.vercel.app//api/bookings" ,{method:"GET"});
     const bookingDetails=await bookingsFetch.json();
     setData(bookingDetails.bookings)
     setQuantity(bookingDetails.bookings.length)
@@ -47,7 +47,7 @@ const Bag = () => {
   const updateBooking=async()=>{
     const updateData=[{productId,quantity,size}]
     try {
-    const updateBookingItems =await fetch("http://localhost:3000/api/bookings" ,{method:"PATCH",body:JSON.stringify(updateData)});
+    const updateBookingItems =await fetch("https://tredilic-gooturu-naga-chittibabus-projects.vercel.app//api/bookings" ,{method:"PATCH",body:JSON.stringify(updateData)});
     const productsAfterFetch=await updateBookingItems.json();
     console.log(productsAfterFetch);
     } catch (error) {

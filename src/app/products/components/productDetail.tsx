@@ -24,7 +24,7 @@ const ProductDetail = ({ handleShowDetails, productId }: ProductDetailProps) => 
   const [cartText, setCartText] = useState("ADD TO CART")
 
   const ProductHandler = async () => {
-    const product = await fetch(`http://localhost:3000/api/products/category?name=""&productId=${productId}`);
+    const product = await fetch(`https://tredilic-gooturu-naga-chittibabus-projects.vercel.app//api/products/category?name=""&productId=${productId}`);
     const productData = await product.json();
     setSelectedProduct(productData.filterProduct);
   }
